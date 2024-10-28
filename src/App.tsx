@@ -14,7 +14,7 @@ function App() {
                 <Route path="/" element={<Main />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/manage/:id" element={<ManageUser />} />
+                <Route path="/manage-user/:id" element={<ManageUser />} />
                 <Route path="/product/:id" element={<Product />} />
                 <Route path="/profile/:id" element={<Profile />} />
                 <Route path="/users" element={<Users />} />
