@@ -6,7 +6,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { fetchUser } from "../../services/user/fetch-user";
 import { saveUser } from "../../services/user/save-user";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 export default function ManageUser() {
     // TODO: Editar, remover, visualizar detalhes ao clicar
@@ -40,13 +40,17 @@ export default function ManageUser() {
             return;
         }
 
-        if (newPassword !== "" && newPassword !== confirmPassword) {
-            toast.error("As senhas não coincidem");
-            return;
-        }
+        const { isRight, message } = saveUser({
+            ...userInfo,
+            newPassword,
+            confirmPassword,
+        });
 
-        saveUser(userInfo);
-        toast.success("Usuário salvo com sucesso!");
+        if (isRight) {
+            toast.success(message);
+        } else {
+            toast.error(message);
+        }
     }
 
     return (
