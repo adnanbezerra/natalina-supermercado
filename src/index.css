@@ -3,6 +3,34 @@
    License: none (public domain)
 */
 
+.bg-green {
+	background-color: #76bf76;
+}
+
+.text-pine-green {
+	color: #228B22;
+}
+
+.pine-green { 
+	background-color: #228B22;
+}
+
+.text-cherry-red {
+	color: #FF0000;
+}
+
+.cherry-red { 
+	background-color: #FF0000;
+}
+
+.snow-white { 
+	background-color: #FFFAFA;
+}
+
+.party-golden {
+	background-color: #FFD700;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
