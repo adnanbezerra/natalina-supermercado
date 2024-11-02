@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Main from "./pages/Main";
+import Main from "./pages/Main/productList";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import ManageUser from "./pages/ManageUser";
