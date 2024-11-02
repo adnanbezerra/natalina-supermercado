@@ -8,7 +8,6 @@ const ProductList: React.FC = () => {
         { id: 2, name: "Produto 2", price: 200, promotion: false },
     ]);
 
-    // Editar produto
     const handleEditProduct = (id: number) => {
         const newName = prompt("Digite o novo nome do produto:");
         const newPrice = parseFloat(
@@ -27,12 +26,10 @@ const ProductList: React.FC = () => {
         );
     };
 
-    // Remover produto
     const handleRemoveProduct = (id: number) => {
         setProducts(products.filter((product) => product.id !== id));
     };
 
-    // Aplicar ou remover uma promoção
     const togglePromotion = (id: number) => {
         setProducts(
             products.map((product) =>
@@ -43,7 +40,6 @@ const ProductList: React.FC = () => {
         );
     };
 
-    // Visualizar os detalhes do produto
     const handleViewDetails = (product: Main) => {
         alert(
             `Detalhes do produto:\nNome: ${product.name}\nPreço: R$${
