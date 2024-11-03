@@ -2,6 +2,7 @@
 // caso o usuário não esteja logado, redirecionar para a tela de login
 
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import './layoutSlyle.css';
 
 const index = () => {
     let loggedUser = { name: "Maria" };
@@ -16,6 +17,8 @@ const index = () => {
                             Gerenciamento de Produtos
                         </Nav.Link>
                         <Nav.Link href="#pricing">Usuários</Nav.Link>
+                    </Nav>
+                    <Nav className="ms-auto"> 
                         <NavDropdown
                             title={loggedUser.name}
                             id="collapsible-nav-dropdown"
@@ -30,11 +33,10 @@ const index = () => {
                             </NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
-                    <Nav></Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
-    );
+    );    
 };
 
 export default index;

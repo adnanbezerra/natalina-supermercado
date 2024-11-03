@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Main from "./pages/Main/productList";
+import Main from "./pages/Main/ProductList";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import ManageUser from "./pages/ManageUser";
@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import Users from "./pages/Users";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Header from './layout/header';
 
 function App() {
     return (
@@ -38,6 +39,7 @@ function App() {
                     <Route path="/product/:id" element={<Product />} />
                     <Route path="/profile/:id" element={<Profile />} />
                     <Route path="/users" element={<Users />} />
+                    <Route path="/header" element={<Header />} /> 
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
             </BrowserRouter>

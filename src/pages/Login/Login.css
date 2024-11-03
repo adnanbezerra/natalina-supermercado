@@ -1,5 +1,5 @@
 #loginContainer {
-    background-color: #76bf76;
+    background: linear-gradient(135deg, #a8d5a2, #f2b8b5); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,23 +7,27 @@
 
     .error {
         width: 100%;
-        color:#ff0000;
+        color: #ff0000;
         font-weight: 300;
         margin-bottom: 5%;
-
     }
 
     form {
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         width: 20%;
 
-        p {
-            color: gray;
-            font-size: 14px;
+        a {
+            color: rgb(52, 49, 49);
+            font-size: 12px;
         }
 
-        a {
-            color: gray;
+        p {
+            color: rgb(52, 49, 49);
+            font-size: 12px;
+        }
+
+        h3 {
+            color: rgb(52, 49, 49);
             font-size: 14px;
         }
 
@@ -34,8 +38,6 @@
             height: 50px;
             border-radius: 5px;
             border: 1px solid gray;
-           
-           
         }
 
         button {
@@ -43,12 +45,12 @@
             height: 40px;
             width: 100%;
             color: white;
-            background-color: #ff0000;
-            border: 0px;
+            background-color: #556b2f;
+            border: none;
             margin-top: 5%;
         }
+        
         padding: 2%;
-        /*border: 1px solid gray;*/
         background-color: white;
         border-radius: 5px;
     }
@@ -60,4 +62,6 @@ h3 {
 
 label {
     margin-bottom: 10px;
+    color: rgb(52, 49, 49);
+    font-size: 14px;
 }
