@@ -7,6 +7,10 @@
 
     .error {
         width: 100%;
+        color:#ff0000;
+        font-weight: 300;
+        margin-bottom: 5%;
+
     }
 
     form {
@@ -27,10 +31,11 @@
             width: 100%;
             padding: 10px;
             box-sizing: border-box;
-            height: 30px;
+            height: 50px;
             border-radius: 5px;
             border: 1px solid gray;
-            margin-bottom: 5%;
+           
+           
         }
 
         button {

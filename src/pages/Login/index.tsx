@@ -5,9 +5,15 @@ export default function Login() {
     const navigation = useNavigate();
     let [email, setEmail] = useState({ value: "", dirty: false });
     let [password, setPassword] = useState({ value: "", dirty: false });
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const handleErrorEmail = () => {
         if (!email.value && email.dirty) {
             return <label className="error">Campo obrigatório</label>;
+        }else if (!emailRegex.test(email.value)&& email.dirty){
+          return(<label className="error">Email inválido</label>)
+        }  else{
+          return(<label className='error'></label>)
         }
     };
 
@@ -15,7 +21,34 @@ export default function Login() {
         if (!password.value && password.dirty) {
             return <label className="error">Campo obrigatório</label>;
         }
+        else{
+          return(<label className='error'></label>)
+        }
     };
+
+    const handleErrorSend = (e:any) => {
+      e.preventDefault();
+      let hasError = false;
+      if(!email.value || !emailRegex.test(email.value)){
+        setEmail({value:email.value,dirty:true});
+        hasError = true;
+
+      }
+      
+      if(!password.value){
+        setPassword({value:password.value,dirty:true});
+        hasError = true;
+
+      }
+
+      if(!hasError){
+        navigation("home")
+      }
+
+
+
+
+    }
 
     return (
         <div id="loginContainer">
@@ -46,7 +79,7 @@ export default function Login() {
 
                 <a href="#">Esqueceu sua senha?</a>
 
-                <button onClick={() => navigation("home")}>Acessar</button>
+                <button onClick={(e) => handleErrorSend(e)}>Acessar</button>
             </form>
         </div>
     );
