@@ -42,11 +42,8 @@ export default function Login() {
       }
 
       if(!hasError){
-        navigation("home")
+        navigation("/products")
       }
-
-
-
 
     }
 
@@ -77,7 +74,7 @@ export default function Login() {
                 />
                 {handleErrorPassword()}
 
-                <a href="#">Esqueceu sua senha?</a>
+                <a onClick={() => navigation('/forgot-password')}>Esqueceu sua senha?</a>
 
                 <button onClick={(e) => handleErrorSend(e)}>Acessar</button>
             </form>
