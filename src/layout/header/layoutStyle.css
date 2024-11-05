@@ -2,3 +2,12 @@
     
 background: linear-gradient(135deg, #4a8c4e, #f2b8b5);
 }
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(135deg, #4a8c4e, #f2b8b5);
+    text-align: center;
+    padding: 20px 0;
+}

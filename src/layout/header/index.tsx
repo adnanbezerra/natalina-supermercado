@@ -7,7 +7,8 @@ import './layoutStyle.css';
 const index = () => {
     let loggedUser = { name: "Maria" };
     return (
-        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+        <div>
+            <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
             <Container>
                 <Navbar.Brand href="#home">Natalina Supermercado</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -36,6 +37,13 @@ const index = () => {
                 </Navbar.Collapse>
             </Container>
         </Navbar>
+        <footer className="footer">
+            <Container>
+                <p>&copy; Natalina Supermercados. Todos os direitos reservados</p>
+            </Container>
+        </footer>
+        </div>
+        
     );    
 };
 
