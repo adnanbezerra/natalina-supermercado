@@ -3,7 +3,7 @@ import "./ProductList.css";
 import { IProduct } from "../../interfaces/product";
 
 const ProductList = () => {
-    const [products] = useState<IProduct[]>([
+    const [products, setProducts] = useState<IProduct[]>([
         { id: 1, name: "Arroz Tio João", price: 5, promotion: false, image:"/imagens/arroz.png"},
         { id: 2, name: "Macarrão Vitarella", price: 4, promotion: false, image:"/imagens/macarrão.png" },
         { id: 3, name: "Chocolate Nestlé", price: 10, promotion: false, image:"/imagens/chocolate.png" },
@@ -24,8 +24,8 @@ const ProductList = () => {
                     key={product.id}>
                     <img src={product.image} alt={product.name} />
                     <h2>{product.name}</h2>
-                    <p>Preço: R${product.price}</p>
-                    <p>Promoção: {product.promotion ? "Sim" : "Não"}</p>
+                    <p>Preço: R${product.price} <br />
+                    Promoção: {product.promotion ? "Sim" : "Não"}</p>
                     <button onClick={() => handleEditProduct(product.id)}>
                      Editar produto
                     </button>
@@ -34,5 +34,9 @@ const ProductList = () => {
         </div>
     );
 };
+
+<footer id="footer">
+    <p>�� 2022 Natalina Supermercado. Todos os direitos reservados.</p>
+</footer>
 
 export default ProductList;

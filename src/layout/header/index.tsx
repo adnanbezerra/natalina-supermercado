@@ -2,7 +2,7 @@
 // caso o usuário não esteja logado, redirecionar para a tela de login
 
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import './layoutSlyle.css';
+import './layoutStyle.css';
 
 const index = () => {
     let loggedUser = { name: "Maria" };
