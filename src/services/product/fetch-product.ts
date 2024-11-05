@@ -1,6 +1,6 @@
 import { IProduct } from '../../interfaces/product';
 
-export async function fetchProduct(userId: number): Promise<IProduct | undefined> {
+export async function fetchProduct(productId: number): Promise<IProduct | undefined> {
     const local = localStorage.getItem("products");
     
     if (!local) {
@@ -8,9 +8,9 @@ export async function fetchProduct(userId: number): Promise<IProduct | undefined
     }
 
     const products: IProduct[] =
-        JSON.parse(localStorage.getItem("users") || "") || [];
+        JSON.parse(localStorage.getItem("products") || "") || [];
 
-    const product = products.find((product) => product.id === userId);
+    const product = products.find((product) => product.id === productId);
 
     return product;
 }
