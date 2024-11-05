@@ -42,7 +42,7 @@ export default function Login() {
       }
 
       if(!hasError){
-        navigation("home")
+        navigation("/products")
       }
 
 

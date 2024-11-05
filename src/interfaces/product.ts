@@ -3,4 +3,5 @@ export interface Main {
     name: string;
     price: number;
     promotion: boolean;
+    image: string;
   }
