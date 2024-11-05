@@ -1,0 +1,91 @@
+.product-container {
+    background-color: black;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    margin: 0 auto;
+  }
+  
+  .product-container h2 {
+    color: #333333;
+    font-size: 24px;
+    margin-top: 0;
+  }
+  
+  .product-container p {
+    color: #666666;
+    font-size: 18px;
+  }
+  
+  .product-container .product-actions {
+    margin-top: 10px;
+  }
+  
+  .product-container .product-actions button {
+    background-color: #4CAF50;
+    color: black;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .product-container .product-actions button:hover {
+    background-color: #3e8e41;
+  }
+  
+  .product-container h3 {
+    color: #333333;
+    font-size: 20px;
+    margin-top: 20px;
+  }
+  
+  .product-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .product-container ul li {
+    color: #666666;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .product-container ul li button {
+    background-color: #FF0000;
+    color: black;
+    border: none;
+    border-radius: 3px;
+    padding: 3px 5px;
+    cursor: pointer;
+  }
+  
+  .product-container ul li button:hover {
+    background-color: #cc0000;
+  }
+  
+  .product-container .add-promotion {
+    margin-top: 10px;
+  }
+  
+  .product-container .add-promotion input {
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid black;
+    width: 100px;
+  }
+  
+  .product-container .add-promotion button {
+    background-color: #007BFF;
+    color: black;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .product-container .add-promotion button:hover {
+    background-color: #0056b3;
+  }

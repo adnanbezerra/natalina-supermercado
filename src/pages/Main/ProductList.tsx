@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./ProductList.css";
-import { Main } from "../../interfaces/product";
+import { IProduct } from "../../interfaces/product";
 
 const ProductList = () => {
-    const [products] = useState<Main[]>([
+    const [products] = useState<IProduct[]>([
         { id: 1, name: "Arroz Tio João", price: 5, promotion: false, image:"/imagens/arroz.png"},
         { id: 2, name: "Macarrão Vitarella", price: 4, promotion: false, image:"/imagens/macarrão.png" },
         { id: 3, name: "Chocolate Nestlé", price: 10, promotion: false, image:"/imagens/chocolate.png" },
