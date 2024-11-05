@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import ManageUser from "./pages/ManageUser";
 import Product from "./pages/Product/ProductDetails";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile/profile";
 import Users from "./pages/Users";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
