@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./ProductList.css";
-import { Main } from "../../interfaces/product";
+import { IProduct } from "../../interfaces/product";
 
 const ProductList: React.FC = () => {
-    const [products, setProducts] = useState<Main[]>([
+    const [products, setProducts] = useState<IProduct[]>([
         { id: 1, name: "Produto 1", price: 100, promotion: false },
         { id: 2, name: "Produto 2", price: 200, promotion: false },
     ]);
@@ -40,7 +40,7 @@ const ProductList: React.FC = () => {
         );
     };
 
-    const handleViewDetails = (product: Main) => {
+    const handleViewDetails = (product: IProduct) => {
         alert(
             `Detalhes do produto:\nNome: ${product.name}\nPreço: R$${
                 product.price
