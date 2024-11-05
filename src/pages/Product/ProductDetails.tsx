@@ -4,15 +4,15 @@ import { fetchProduct } from '../../services/product/fetch-product';
 import { IProduct } from '../../interfaces/product';
 
 const ProductPage: React.FC = () => {
-  const { productId } = useParams<{ productId: string }>();
+  const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<IProduct | undefined>(undefined);
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    fetchProduct(Number(productId)).then((data) => {
+    fetchProduct(Number(id)).then((data) => {
       setProduct(data);
   });
-  }, [productId]);
+  }, [id]);
 
   return (
     <div>
