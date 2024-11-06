@@ -160,7 +160,7 @@ const ProductPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       {product ? (
         <>
           <h1>{product.name}</h1>

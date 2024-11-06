@@ -12,7 +12,7 @@ const index = ({ children }: { children: ReactNode }) => {
     // const { setOpenDrawer, openDrawer } = useDrawer();
 
     return (
-        <div>
+        <div style={{height: "100%"}}>
             <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
                 <Container>
                     <div
