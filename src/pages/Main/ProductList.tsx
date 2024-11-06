@@ -37,6 +37,15 @@ const ProductList = () => {
     return (
 
         <div className="product-list">
+            <div className="new-product">
+                <h2>Cadastrar Novo Produto</h2> 
+                <input type="text" name="name" value={newProduct.name} onChange={handleInputChange} placeholder="Nome do Produto" />
+                <input type="number" name="price" value={newProduct.price} onChange={handleInputChange} placeholder="Preço" /> 
+                <input type="text" name="image" value={newProduct.image} onChange={handleInputChange} placeholder="URL da Imagem" /> 
+                <button onClick={handleAddProduct}>Adicionar Produto</button>
+            </div>
+
+            
             <h1>Lista de Produtos</h1>
             {products.map((product) => (
                 <div className="product-item"
@@ -51,19 +60,12 @@ const ProductList = () => {
 
                 </div>
             ))}
-            <div className="new-product-form">
-                <h2>Cadastrar Novo Produto</h2> 
-                <input type="text" name="name" value={newProduct.name} onChange={handleInputChange} placeholder="Nome do Produto" />
-                <input type="number" name="price" value={newProduct.price} onChange={handleInputChange} placeholder="Preço" /> 
-                <input type="text" name="image" value={newProduct.image} onChange={handleInputChange} placeholder="URL da Imagem" /> 
-                <button onClick={handleAddProduct}>Adicionar Produto</button>
-            </div>
+            </div>);
 
 
 
 
 
-        </div>);
 };
 
 export default ProductList;
