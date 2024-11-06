@@ -8,8 +8,10 @@ import Profile from "./pages/Profile/profile";
 import Users from "./pages/Users";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Header from './layout/header';
+import Header from "./layout/header";
 import ProductDetails from "./pages/Product/ProductDetails";
+// import Sidebar from "./layout/Sidebar/Sidebar";
+import { DrawerProvider } from "./contexts/drawer-context";
 
 function App() {
     return (
@@ -28,22 +30,62 @@ function App() {
                 transition={Bounce}
             />
 
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Login />} />
-                    <Route path="/products" element={<Main />} />
-                    <Route
-                        path="/forgot-password"
-                        element={<ForgotPassword />}
-                    />
-                    <Route path="/manage-user/:id" element={<ManageUser />} />
-                    <Route path="/product/:id" element={<Product />} />
-                    <Route path="/profile/:id" element={<Profile />} />
-                    <Route path="/users" element={<Users />} />
-                    <Route path="/header" element={<Header />} /> 
-                    <Route path="*" element={<Navigate to="/" />} />
-                </Routes>
-            </BrowserRouter>
+            <DrawerProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Login />} />
+                        <Route
+                            path="/products"
+                            element={
+                                <Header>
+                                    <Main />
+                                </Header>
+                            }
+                        />
+                        <Route
+                            path="/forgot-password"
+                            element={
+                                <Header>
+                                    <ForgotPassword />
+                                </Header>
+                            }
+                        />
+                        <Route
+                            path="/manage-user/:id"
+                            element={
+                                <Header>
+                                    <ManageUser />
+                                </Header>
+                            }
+                        />
+                        <Route
+                            path="/product/:id"
+                            element={
+                                <Header>
+                                    <Product />
+                                </Header>
+                            }
+                        />
+                        <Route
+                            path="/profile"
+                            element={
+                                <Header>
+                                    <Profile />
+                                </Header>
+                            }
+                        />
+                        <Route
+                            path="/users"
+                            element={
+                                <Header>
+                                    <Users />
+                                </Header>
+                            }
+                        />
+                        <Route path="*" element={<Navigate to="/" />} />
+                    </Routes>
+                </BrowserRouter>
+            </DrawerProvider>
         </>
     );
 }

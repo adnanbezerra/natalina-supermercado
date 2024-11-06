@@ -59,7 +59,7 @@ export default function ManageUser() {
             <h2 className="margin-bottom">
                 Administre aqui as informações de usuário dos funcionários
             </h2>
-            <form action="" className="snow-white">
+            <form action="" className="snow-white form-edit-user" style={{"maxWidth": "300000px"}} >
                 <Input
                     value={userInfo.name}
                     label={"Nome"}

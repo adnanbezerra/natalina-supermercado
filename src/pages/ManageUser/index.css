@@ -27,7 +27,7 @@ h1 {
     margin-bottom: 15px;
 }
 
-form {
+.form-edit-user {
     padding: 40px;
     box-sizing: border-box;
     border-radius: 20px;
