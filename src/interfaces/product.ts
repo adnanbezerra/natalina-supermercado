@@ -4,4 +4,8 @@ export interface IProduct {
     price: number;
     promotion: boolean;
     image: string;
+    promotionDetails?: {
+        discount: number;
+        description: string;
+    };
   }
