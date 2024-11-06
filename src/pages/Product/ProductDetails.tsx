@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import "./Productt.css";
 import { removeProduct } from '../../services/product/remove-product';
 
-// Função para salvar o produto no LocalStorage
+
 export async function saveDemoProducts(products: IProduct[]) {
   const local = localStorage.getItem("products");
 
@@ -32,9 +32,9 @@ const ProductPage: React.FC = () => {
   const [product, setProduct] = useState<IProduct | undefined>(undefined);
   const [editMode, setEditMode] = useState(false);
   const [promotionMode, setPromotionMode] = useState(false);
-  const [discount, setDiscount] = useState<number>(0); // Campo para o desconto da promoção
-  const [description, setDescription] = useState<string>(""); // Campo para a descrição da promoção
-  const [promotionDetailsVisible, setPromotionDetailsVisible] = useState(false); // Estado para exibir os detalhes da promoção
+  const [discount, setDiscount] = useState<number>(0); 
+  const [description, setDescription] = useState<string>(""); 
+  const [promotionDetailsVisible, setPromotionDetailsVisible] = useState(false); 
 
   useEffect(() => {
     fetchProduct(Number(id)).then((data) => {
@@ -72,11 +72,11 @@ const ProductPage: React.FC = () => {
         promotion: !product.promotion,
         promotionDetails: product.promotion
           ? undefined
-          : product.promotionDetails, // Limpa os detalhes de promoção se for removida
+          : product.promotionDetails, 
         price: product.promotion
           ? product.price /
             (1 - (product.promotionDetails?.discount || 0) / 100)
-          : product.price, // Restaura o preço original
+          : product.price, 
       };
       const savedProduct = await saveProduct(updatedProduct);
       setProduct(savedProduct);
@@ -88,15 +88,15 @@ const ProductPage: React.FC = () => {
       const updatedProduct = {
         ...product,
         promotion: true,
-        price: product.price * (1 - discount / 100), // Atualiza o preço com o desconto
+        price: product.price * (1 - discount / 100), 
         promotionDetails: {
           discount,
           description,
-        }, // Salva o desconto e a descrição
+        }, 
       };
       saveProduct(updatedProduct).then((savedProduct) => {
         setProduct(savedProduct);
-        setPromotionMode(false); // Fechar o modal de promoção após salvar
+        setPromotionMode(false); 
         toast.success("Promoção cadastrada com sucesso!");
       });
     }
@@ -110,11 +110,11 @@ const ProductPage: React.FC = () => {
           discount,
           description,
         },
-        price: product.price * (1 - discount / 100), // Atualiza o preço com o novo desconto
+        price: product.price * (1 - discount / 100), 
       };
       saveProduct(updatedProduct).then((savedProduct) => {
         setProduct(savedProduct);
-        setPromotionMode(false); // Fechar o modal de promoção após atualizar
+        setPromotionMode(false); 
         toast.success("Promoção atualizada com sucesso!");
       });
     }
@@ -124,18 +124,18 @@ const ProductPage: React.FC = () => {
     if (product && product.promotion) {
       const updatedProduct = {
         ...product,
-        promotion: false, // Desativa a promoção
+        promotion: false, 
         promotionDetails: {
           discount: product.promotionDetails?.discount || 0,
           description: product.promotionDetails?.description || "",
-        }, // Salva os detalhes para possibilitar a recuperação
+        }, 
         price:
-          product.price / (1 - (product.promotionDetails?.discount || 0) / 100), // Restaura o preço original
+          product.price / (1 - (product.promotionDetails?.discount || 0) / 100), 
       };
       saveProduct(updatedProduct).then((savedProduct) => {
         setProduct(savedProduct);
         toast.success("Promoção removida com sucesso!");
-        setPromotionMode(false); // Fechar o modal de promoção após remover
+        setPromotionMode(false); 
       });
     }
   };
@@ -145,8 +145,8 @@ const ProductPage: React.FC = () => {
       const { discount, description } = product.promotionDetails;
       const updatedProduct = {
         ...product,
-        promotion: true, // Restaura a promoção
-        price: product.price * (1 - discount / 100), // Aplica o desconto novamente ao preço
+        promotion: true, 
+        price: product.price * (1 - discount / 100), 
         promotionDetails: {
           discount,
           description,
@@ -163,7 +163,7 @@ const ProductPage: React.FC = () => {
   };
 
   const handleViewPromotion = () => {
-    setPromotionDetailsVisible(!promotionDetailsVisible); // Alterna a visibilidade dos detalhes da promoção
+    setPromotionDetailsVisible(!promotionDetailsVisible); 
   };
 
   return (
