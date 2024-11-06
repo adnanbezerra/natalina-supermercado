@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { fetchProduct } from "../../services/product/fetch-product";
 import { IProduct } from "../../interfaces/product";
+import { toast } from 'react-toastify';
+import "./Productt.css";
+import { removeProduct } from '../../services/product/remove-product';
 
 // Função para salvar o produto no LocalStorage
 export async function saveDemoProducts(products: IProduct[]) {
@@ -52,9 +55,13 @@ const ProductPage: React.FC = () => {
   };
 
   const handleRemoveProduct = async () => {
-    if (product) {
-      alert(`${product.name} removido com sucesso!`);
+    const response = await removeProduct(Number(id));
+
+    if (response.isRight && product) {
+      toast.success(`${product.name} removido com sucesso!`);
       setProduct(undefined);
+    } else {
+      toast.error(response.message);
     }
   };
 
@@ -90,7 +97,7 @@ const ProductPage: React.FC = () => {
       saveProduct(updatedProduct).then((savedProduct) => {
         setProduct(savedProduct);
         setPromotionMode(false); // Fechar o modal de promoção após salvar
-        alert("Promoção cadastrada com sucesso!");
+        toast.success("Promoção cadastrada com sucesso!");
       });
     }
   };
@@ -108,7 +115,7 @@ const ProductPage: React.FC = () => {
       saveProduct(updatedProduct).then((savedProduct) => {
         setProduct(savedProduct);
         setPromotionMode(false); // Fechar o modal de promoção após atualizar
-        alert("Promoção atualizada com sucesso!");
+        toast.success("Promoção atualizada com sucesso!");
       });
     }
   };
@@ -127,7 +134,7 @@ const ProductPage: React.FC = () => {
       };
       saveProduct(updatedProduct).then((savedProduct) => {
         setProduct(savedProduct);
-        alert("Promoção removida com sucesso!");
+        toast.success("Promoção removida com sucesso!");
         setPromotionMode(false); // Fechar o modal de promoção após remover
       });
     }
@@ -148,10 +155,10 @@ const ProductPage: React.FC = () => {
 
       saveProduct(updatedProduct).then((savedProduct) => {
         setProduct(savedProduct);
-        alert("Promoção recuperada com sucesso!");
+        toast.success("Promoção recuperada com sucesso!");
       });
     } else {
-      alert("Nenhuma promoção salva para este produto.");
+      toast.error("Nenhuma promoção salva para este produto.");
     }
   };
 
@@ -160,25 +167,30 @@ const ProductPage: React.FC = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{ height: 'fit-content' }}>
       {product ? (
-        <>
-          <h1>{product.name}</h1>
-          <p>Preço: ${product.price.toFixed(2)}</p>
+        <div>
+          <h1 style={{ marginTop: "20px" }}>{product.name}</h1>
+          <div className='product-info'>
+            <div className='product-price'>
+              <p><span>Preço</span>: ${product.price.toFixed(2)}</p>
+              <p><span>Promoção</span>: {product.promotion ? "Ativa" : "Inativa"}</p>
+            </div>
+            <img src={`${product.image}`} alt="" />
+          </div>
 
-          {/* Toggling Promotion Status */}
+        <div className='options-container'>
+          <h2>Opções</h2>
           <button onClick={togglePromotion}>
             {product.promotion ? "Remover Promoção" : "Aplicar Promoção"}
           </button>
 
           <button onClick={handleRemoveProduct}>Remover Produto</button>
 
-          {/* Botão para editar a promoção */}
           <button onClick={() => setPromotionMode(!promotionMode)}>
             {promotionMode ? "Cancelar Edição de Promoção" : "Editar Promoção"}
           </button>
 
-          {/* Formulário de promoção */}
           {promotionMode && (
             <div>
               <h2>
@@ -213,14 +225,12 @@ const ProductPage: React.FC = () => {
             </div>
           )}
 
-          {/* Botão para mostrar/ocultar os detalhes da promoção */}
           <button onClick={handleViewPromotion}>
             {promotionDetailsVisible
               ? "Ocultar Detalhes da Promoção"
               : "Ver Promoção"}
           </button>
 
-          {/* Exibe os detalhes da promoção em uma caixa de texto (textarea) */}
           {promotionDetailsVisible &&
             product.promotion &&
             product.promotionDetails && (
@@ -232,12 +242,10 @@ const ProductPage: React.FC = () => {
               />
             )}
 
-          {/* Botão para editar o produto */}
           <button onClick={() => setEditMode(!editMode)}>
             {editMode ? "Cancelar" : "Editar Produto"}
           </button>
 
-          {/* Formulário de edição do produto */}
           {editMode && (
             <div>
               <input
@@ -258,11 +266,13 @@ const ProductPage: React.FC = () => {
             </div>
           )}
 
-          {/* Botão para recuperar a promoção */}
           <button onClick={handleRecoverPromotion}>Recuperar Promoção</button>
-        </>
+          </div>
+        </div>
       ) : (
-        <p>Produto não encontrado.</p>
+        <div className='container' style={{ height: '100%' }}>
+          <div>Produto não encontrado.</div>
+        </div>
       )}
     </div>
   );
