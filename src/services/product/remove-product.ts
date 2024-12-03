@@ -2,7 +2,7 @@ import { IProduct } from "../../interfaces/product";
 import { DefaultServiceOutput } from "../../interfaces/service";
 
 export async function removeProduct(
-    productId: number
+    productId?: string
 ): Promise<DefaultServiceOutput> {
     const local = localStorage.getItem("products");
 
@@ -17,7 +17,7 @@ export async function removeProduct(
         JSON.parse(localStorage.getItem("products") || "") || [];
 
     const updatedProducts = products.filter(
-        (product) => product.id !== productId
+        (product) => product._id !== productId
     );
 
     localStorage.setItem("products", JSON.stringify(updatedProducts));

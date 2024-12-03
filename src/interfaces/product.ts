@@ -1,11 +1,14 @@
 export interface IProduct {
-    id: number;
+    _id?: number;
     name: string;
     price: number;
     promotion: boolean;
-    image: string;
+    image: {
+        base64Image: string;
+        contentType: string;
+    };
     promotionDetails?: {
         discount: number;
         description: string;
     };
-  }
+}
