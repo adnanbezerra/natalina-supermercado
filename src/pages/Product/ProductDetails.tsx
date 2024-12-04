@@ -5,6 +5,7 @@ import { IProduct } from "../../interfaces/product";
 import { toast } from "react-toastify";
 import "./Productt.css";
 import { removeProduct } from "../../services/product/remove-product";
+import { editProduct } from '../../services/product/edit-product';
 
 const saveProduct = async (product: IProduct) => {
     console.log("Produto salvo:", product);
@@ -22,6 +23,14 @@ const ProductPage: React.FC = () => {
         useState(false);
     const navigate = useNavigate();
 
+    if (!id) {
+        return (
+            <div className="container" style={{ height: "100%" }}>
+                <div>Produto não encontrado.</div>
+            </div>
+        )
+    }
+
     useEffect(() => {
         fetchProductById(id).then((data) => {
             setProduct(data);
@@ -35,8 +44,18 @@ const ProductPage: React.FC = () => {
                 name: product.name,
                 price: product.price,
             };
-            const savedProduct = await saveProduct(updatedProduct);
-            setProduct(savedProduct);
+            const response = await editProduct({
+                input: updatedProduct,
+                productId: id,
+            })
+
+            if (response.isRight) {
+                setProduct(updatedProduct);
+                setEditMode(false);
+                toast.success("Produto editado com sucesso!");
+            } else {
+                toast.error(response.message);
+            }
         }
     };
 
