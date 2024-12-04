@@ -4,6 +4,7 @@ import { IProduct } from "../../interfaces/product";
 import { useNavigate } from "react-router-dom";
 import { fetchProducts } from "../../services/product/fetch-products";
 import { postNewProduct } from "../../services/product/post-new-product";
+import { toast } from 'react-toastify';
 
 const ProductList = () => {
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -67,12 +68,16 @@ const ProductList = () => {
             );
         }
 
-        postNewProduct(formData).then(() => {
+        postNewProduct(formData).then((response) => {
             fetchProducts().then((products) => {
                 if (products) {
                     setProducts(products);
-                }
+                }                
             });
+
+            if (response.isRight) {
+                toast.success(response.message);
+            }
         });
     };
 
@@ -84,16 +89,19 @@ const ProductList = () => {
         <div
             className="product-list"
             style={{
-                height: products.length === 0 ? "85%" : "auto",
+                minHeight: "85%",
             }}
         >
             <div className="new-product">
                 <div className="show-form-row">
                     <h1>Lista de Produtos</h1>
-                    <button onClick={() => setShowForm(!showForm)}>
+                    <button
+                        onClick={() => setShowForm(!showForm)}
+                        style={{ height: "fit-content" }}
+                    >
                         {showForm
-                            ? "Adicionar novo produto"
-                            : "Esconder Formulário"}
+                            ? "Esconder formulário"
+                            : "Adicionar novo produto"}
                     </button>
                 </div>
 
