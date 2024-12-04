@@ -1,29 +1,23 @@
-import { IProduct } from "../../interfaces/product";
+import { API_URL } from '../../constants/api';
 import { DefaultServiceOutput } from "../../interfaces/service";
 
 export async function removeProduct(
     productId?: string
 ): Promise<DefaultServiceOutput> {
-    const local = localStorage.getItem("products");
-
-    if (!local) {
+    const response = fetch(`${API_URL}/product/${productId}`, {
+        method: "DELETE",
+    }).then((response) => {
+        if (response.ok) {
+            return {
+                isRight: true,
+                message: "Produto removido com sucesso",
+            };
+        }
         return {
             isRight: false,
-            message: "Produto não encontrado",
+            message: "Erro ao remover produto",
         };
-    }
+    });
 
-    const products: IProduct[] =
-        JSON.parse(localStorage.getItem("products") || "") || [];
-
-    const updatedProducts = products.filter(
-        (product) => product._id !== productId
-    );
-
-    localStorage.setItem("products", JSON.stringify(updatedProducts));
-
-    return {
-        isRight: true,
-        message: "Produto removido com sucesso",
-    };
+    return response;
 }
