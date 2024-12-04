@@ -7,6 +7,7 @@ import { postNewProduct } from "../../services/product/post-new-product";
 
 const ProductList = () => {
     const [products, setProducts] = useState<IProduct[]>([]);
+    const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
         fetchProducts().then((products) => {
@@ -80,10 +81,27 @@ const ProductList = () => {
     };
 
     return (
-        <div className="product-list">
+        <div
+            className="product-list"
+            style={{
+                height: products.length === 0 ? "85%" : "auto",
+            }}
+        >
             <div className="new-product">
-                <h2>Cadastrar Novo Produto</h2>
-                <form onSubmit={handleAddProduct}>
+                <div className="show-form-row">
+                    <h1>Lista de Produtos</h1>
+                    <button onClick={() => setShowForm(!showForm)}>
+                        {showForm
+                            ? "Adicionar novo produto"
+                            : "Esconder Formulário"}
+                    </button>
+                </div>
+
+                <form
+                    onSubmit={handleAddProduct}
+                    className="new-product-form"
+                    style={{ display: showForm ? "block" : "none" }}
+                >
                     <input
                         type="text"
                         name="name"
@@ -109,7 +127,12 @@ const ProductList = () => {
                 </form>
             </div>
 
-            <h1>Lista de Produtos</h1>
+            {products.length === 0 && (
+                <div style={{ height: "100%" }}>
+                    <p>Nenhum produto cadastrado</p>
+                </div>
+            )}
+
             {products.map((product) => {
                 const imgSource = `data:${product.image.contentType};base64,${product.image.base64Image}`;
 

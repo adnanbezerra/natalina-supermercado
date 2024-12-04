@@ -109,3 +109,16 @@ button:hover {
 .new-product button:hover {
     background-color: #b31800;
 }
+
+.new-product-form {
+    width: 400px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.show-form-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
