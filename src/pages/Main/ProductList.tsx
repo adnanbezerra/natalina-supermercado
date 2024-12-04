@@ -3,6 +3,7 @@ import "./ProductList.css";
 import { IProduct } from "../../interfaces/product";
 import { useNavigate } from "react-router-dom";
 import { fetchProducts } from "../../services/product/fetch-products";
+import { postNewProduct } from "../../services/product/post-new-product";
 
 const ProductList = () => {
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -14,8 +15,6 @@ const ProductList = () => {
             }
         });
     }, []);
-
-    console.log(products);
 
     const navigate = useNavigate();
 
@@ -34,16 +33,45 @@ const ProductList = () => {
         setNewProduct({ ...newProduct, [name]: value });
     };
 
-    const handleAddProduct = () => {
-        // setProducts([...products, { ...newProduct, id: products.length + 1 }]);
-        setNewProduct({
-            name: "",
-            price: 0,
-            promotion: false,
-            image: {
-                base64Image: "",
-                contentType: "",
-            },
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setNewProduct((prevProduct) => ({
+                    ...prevProduct,
+                    image: {
+                        buffer: reader.result as ArrayBuffer,
+                        contentType: file.type,
+                    },
+                }));
+            };
+            reader.readAsArrayBuffer(file);
+        }
+    };
+
+    const handleAddProduct = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append("name", newProduct.name);
+        formData.append("price", newProduct.price.toString());
+        formData.append("promotion", newProduct.promotion.toString());
+        if (newProduct.image.buffer) {
+            formData.append(
+                "image",
+                new Blob([newProduct.image.buffer], {
+                    type: newProduct.image.contentType,
+                })
+            );
+        }
+
+        postNewProduct(formData).then(() => {
+            fetchProducts().then((products) => {
+                if (products) {
+                    setProducts(products);
+                }
+            });
         });
     };
 
@@ -55,28 +83,30 @@ const ProductList = () => {
         <div className="product-list">
             <div className="new-product">
                 <h2>Cadastrar Novo Produto</h2>
-                <input
-                    type="text"
-                    name="name"
-                    value={newProduct.name}
-                    onChange={handleInputChange}
-                    placeholder="Nome do Produto"
-                />
-                <input
-                    type="number"
-                    name="price"
-                    value={newProduct.price}
-                    onChange={handleInputChange}
-                    placeholder="Preço"
-                />
-                <input
-                    type="text"
-                    name="image"
-                    // value={newProduct.image}
-                    onChange={handleInputChange}
-                    placeholder="URL da Imagem"
-                />
-                <button onClick={handleAddProduct}>Adicionar Produto</button>
+                <form onSubmit={handleAddProduct}>
+                    <input
+                        type="text"
+                        name="name"
+                        value={newProduct.name}
+                        onChange={handleInputChange}
+                        placeholder="Nome do Produto"
+                    />
+                    <input
+                        type="number"
+                        name="price"
+                        value={newProduct.price}
+                        onChange={handleInputChange}
+                        placeholder="Preço"
+                    />
+                    <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        placeholder="Adicione a Imagem"
+                    />
+                    <button type="submit">Adicionar Produto</button>
+                </form>
             </div>
 
             <h1>Lista de Produtos</h1>

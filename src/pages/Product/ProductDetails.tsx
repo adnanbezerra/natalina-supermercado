@@ -152,8 +152,6 @@ const ProductPage: React.FC = () => {
         setPromotionDetailsVisible(!promotionDetailsVisible);
     };
 
-    console.log(product);
-
     return (
         <div className="container" style={{ height: "fit-content" }}>
             {product ? (

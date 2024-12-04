@@ -4,8 +4,9 @@ export interface IProduct {
     price: number;
     promotion: boolean;
     image: {
-        base64Image: string;
+        base64Image?: string;
         contentType: string;
+        buffer?: ArrayBuffer;
     };
     promotionDetails?: {
         discount: number;
