@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchProductById } from "../../services/product/fetch-product-by-id";
 import { IProduct } from "../../interfaces/product";
 import { toast } from "react-toastify";
@@ -20,6 +20,7 @@ const ProductPage: React.FC = () => {
     const [description, setDescription] = useState<string>("");
     const [promotionDetailsVisible, setPromotionDetailsVisible] =
         useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchProductById(id).then((data) => {
@@ -45,6 +46,7 @@ const ProductPage: React.FC = () => {
         if (response.isRight && product) {
             toast.success(`${product.name} removido com sucesso!`);
             setProduct(undefined);
+            navigate("/products");
         } else {
             toast.error(response.message);
         }
@@ -153,7 +155,10 @@ const ProductPage: React.FC = () => {
     };
 
     return (
-        <div className="container" style={{ height: "fit-content" }}>
+        <div
+            className="container"
+            style={{ height: "fit-content", minHeight: "80%" }}
+        >
             {product ? (
                 <div>
                     <h1 style={{ marginTop: "20px" }}>{product.name}</h1>
@@ -173,16 +178,26 @@ const ProductPage: React.FC = () => {
                         />
                     </div>
 
+                    <h2>Opções</h2>
                     <div className="options-container">
-                        <h2>Opções</h2>
-                        <button onClick={togglePromotion}>
-                            {product.promotion
-                                ? "Remover Promoção"
-                                : "Aplicar Promoção"}
+                        <button onClick={() => setEditMode(!editMode)}>
+                            {editMode ? "Cancelar" : "Editar Produto"}
                         </button>
 
                         <button onClick={handleRemoveProduct}>
                             Remover Produto
+                        </button>
+
+                        <button onClick={handleViewPromotion}>
+                            {promotionDetailsVisible
+                                ? "Ocultar Detalhes da Promoção"
+                                : "Ver Promoção"}
+                        </button>
+
+                        <button onClick={togglePromotion}>
+                            {product.promotion
+                                ? "Remover Promoção"
+                                : "Aplicar Promoção"}
                         </button>
 
                         <button
@@ -193,29 +208,77 @@ const ProductPage: React.FC = () => {
                                 : "Editar Promoção"}
                         </button>
 
-                        {promotionMode && (
-                            <div>
-                                <h2>
-                                    {product.promotion
-                                        ? "Atualizar Promoção"
-                                        : "Cadastrar Promoção"}
-                                </h2>
-                                <input
-                                    type="number"
-                                    value={discount}
-                                    onChange={(e) =>
-                                        setDiscount(Number(e.target.value))
-                                    }
-                                    placeholder="Desconto (%)"
+                        {promotionDetailsVisible &&
+                            product.promotion &&
+                            product.promotionDetails && (
+                                <textarea
+                                    value={`Desconto: ${product.promotionDetails.discount}%\nDescrição: ${product.promotionDetails.description}`}
+                                    readOnly
+                                    rows={4}
+                                    cols={50}
                                 />
-                                <input
-                                    type="text"
-                                    value={description}
-                                    onChange={(e) =>
-                                        setDescription(e.target.value)
-                                    }
-                                    placeholder="Descrição da promoção"
-                                />
+                            )}
+
+                        <button onClick={handleRecoverPromotion}>
+                            Recuperar Promoção
+                        </button>
+                    </div>
+                    {editMode && (
+                        <div className="edition-container">
+                            <h2>Editar Produto</h2>
+                            <input
+                                type="text"
+                                value={product.name}
+                                onChange={(e) =>
+                                    setProduct({
+                                        ...product,
+                                        name: e.target.value,
+                                    })
+                                }
+                            />
+                            <input
+                                type="number"
+                                value={product.price}
+                                onChange={(e) =>
+                                    setProduct({
+                                        ...product,
+                                        price: Number(e.target.value),
+                                    })
+                                }
+                            />
+                            <button onClick={handleEditProduct}>
+                                Salvar Alterações
+                            </button>
+                        </div>
+                    )}
+                    {promotionMode && (
+                        <div className="edition-container">
+                            <h2>
+                                {product.promotion
+                                    ? "Atualizar Promoção"
+                                    : "Cadastrar Promoção"}
+                            </h2>
+                            <input
+                                type="number"
+                                value={discount}
+                                onChange={(e) =>
+                                    setDiscount(Number(e.target.value))
+                                }
+                                placeholder="Desconto (%)"
+                            />
+                            <input
+                                type="text"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                placeholder="Descrição da promoção"
+                            />
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-around",
+                                    width: "55%",
+                                }}
+                            >
                                 <button
                                     onClick={
                                         product.promotion
@@ -231,61 +294,8 @@ const ProductPage: React.FC = () => {
                                     Remover Promoção
                                 </button>
                             </div>
-                        )}
-
-                        <button onClick={handleViewPromotion}>
-                            {promotionDetailsVisible
-                                ? "Ocultar Detalhes da Promoção"
-                                : "Ver Promoção"}
-                        </button>
-
-                        {promotionDetailsVisible &&
-                            product.promotion &&
-                            product.promotionDetails && (
-                                <textarea
-                                    value={`Desconto: ${product.promotionDetails.discount}%\nDescrição: ${product.promotionDetails.description}`}
-                                    readOnly
-                                    rows={4}
-                                    cols={50}
-                                />
-                            )}
-
-                        <button onClick={() => setEditMode(!editMode)}>
-                            {editMode ? "Cancelar" : "Editar Produto"}
-                        </button>
-
-                        {editMode && (
-                            <div>
-                                <input
-                                    type="text"
-                                    value={product.name}
-                                    onChange={(e) =>
-                                        setProduct({
-                                            ...product,
-                                            name: e.target.value,
-                                        })
-                                    }
-                                />
-                                <input
-                                    type="number"
-                                    value={product.price}
-                                    onChange={(e) =>
-                                        setProduct({
-                                            ...product,
-                                            price: Number(e.target.value),
-                                        })
-                                    }
-                                />
-                                <button onClick={handleEditProduct}>
-                                    Salvar Alterações
-                                </button>
-                            </div>
-                        )}
-
-                        <button onClick={handleRecoverPromotion}>
-                            Recuperar Promoção
-                        </button>
-                    </div>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <div className="container" style={{ height: "100%" }}>
