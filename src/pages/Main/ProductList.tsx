@@ -4,7 +4,7 @@ import { IProduct } from "../../interfaces/product";
 import { useNavigate } from "react-router-dom";
 import { fetchProducts } from "../../services/product/fetch-products";
 import { postNewProduct } from "../../services/product/post-new-product";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const ProductList = () => {
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -59,7 +59,7 @@ const ProductList = () => {
         formData.append("name", newProduct.name);
         formData.append("price", newProduct.price.toString());
         formData.append("promotion", newProduct.promotion.toString());
-        if (newProduct.image.buffer) {
+        if (newProduct.image?.buffer) {
             formData.append(
                 "image",
                 new Blob([newProduct.image.buffer], {
@@ -72,11 +72,21 @@ const ProductList = () => {
             fetchProducts().then((products) => {
                 if (products) {
                     setProducts(products);
-                }                
+                }
             });
 
             if (response.isRight) {
                 toast.success(response.message);
+
+                setNewProduct({
+                    name: "",
+                    price: 0,
+                    promotion: false,
+                    image: {
+                        base64Image: "",
+                        contentType: "",
+                    },
+                });
             }
         });
     };
@@ -120,6 +130,7 @@ const ProductList = () => {
                     <input
                         type="number"
                         name="price"
+                        min="0"
                         value={newProduct.price}
                         onChange={handleInputChange}
                         placeholder="Preço"
@@ -142,7 +153,9 @@ const ProductList = () => {
             )}
 
             {products.map((product) => {
-                const imgSource = `data:${product.image.contentType};base64,${product.image.base64Image}`;
+                const imgSource = product.image
+                    ? `data:${product.image?.contentType};base64,${product.image?.base64Image}`
+                    : "./caixa.png";
 
                 return (
                     <div className="product-item" key={product._id}>
@@ -152,7 +165,10 @@ const ProductList = () => {
                             Preço: R${product.price} <br />
                             Promoção: {product.promotion ? "Sim" : "Não"}
                         </p>
-                        <button onClick={() => handleEditProduct(product._id)}>
+                        <button
+                            className="edit-product-button"
+                            onClick={() => handleEditProduct(product._id)}
+                        >
                             Editar produto
                         </button>
                     </div>

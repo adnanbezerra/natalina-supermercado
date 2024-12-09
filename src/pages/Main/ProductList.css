@@ -110,6 +110,10 @@ button:hover {
     background-color: #b31800;
 }
 
+.edit-product-button {
+    height: fit-content
+}
+
 .new-product-form {
     width: 400px;
     margin: 0 auto;

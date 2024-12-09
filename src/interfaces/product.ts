@@ -3,7 +3,7 @@ export interface IProduct {
     name: string;
     price: number;
     promotion: boolean;
-    image: {
+    image?: {
         base64Image?: string;
         contentType: string;
         buffer?: ArrayBuffer;
