@@ -5,7 +5,8 @@ import { IProduct } from "../../interfaces/product";
 import { toast } from "react-toastify";
 import "./Productt.css";
 import { removeProduct } from "../../services/product/remove-product";
-import { editProduct } from '../../services/product/edit-product';
+import { editProduct } from "../../services/product/edit-product";
+import CaixaImage from "../../../public/caixa.png";
 
 const saveProduct = async (product: IProduct) => {
     console.log("Produto salvo:", product);
@@ -28,7 +29,7 @@ const ProductPage: React.FC = () => {
             <div className="container" style={{ height: "100%" }}>
                 <div>Produto não encontrado.</div>
             </div>
-        )
+        );
     }
 
     useEffect(() => {
@@ -47,7 +48,7 @@ const ProductPage: React.FC = () => {
             const response = await editProduct({
                 input: updatedProduct,
                 productId: id,
-            })
+            });
 
             if (response.isRight) {
                 setProduct(updatedProduct);
@@ -184,7 +185,7 @@ const ProductPage: React.FC = () => {
                     <div className="product-info">
                         <div className="product-price">
                             <p>
-                                <span>Preço</span>: ${product.price.toFixed(2)}
+                                <span>Preço</span>: R${product.price.toFixed(2)}
                             </p>
                             <p>
                                 <span>Promoção</span>:{" "}
@@ -192,7 +193,11 @@ const ProductPage: React.FC = () => {
                             </p>
                         </div>
                         <img
-                            src={`data:${product.image.contentType};base64,${product.image.base64Image}`}
+                            src={
+                                product.image
+                                    ? `data:${product.image?.contentType};base64,${product.image?.base64Image}`
+                                    : CaixaImage
+                            }
                             alt={product.name}
                         />
                     </div>
