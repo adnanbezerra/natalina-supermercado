@@ -26,11 +26,7 @@ const UserManagement: React.FC = () => {
 
         if (!usersFromLocal || !JSON.parse(usersFromLocal).length) {
             const defaultUsers: IUser[] = [
-                { id: 1, name: "Adnan Medeiros", email: "adnan@gmail.com", role: "Admin", cpf: "123.456.789-00" },
-                { id: 2, name: "Caio Henrique", email: "caio@gmail.com", role: "Editor", cpf: "123.456.789-01" },
-                { id: 3, name: "Gizele Gabriele", email: "gizele@gmail.com", role: "Viewer", cpf: "123.456.789-02" },
-                { id: 4, name: "Natalia Galdino", email: "natalia@gmail.com", role: "Viewer", cpf: "123.456.789-03" },
-                { id: 5, name: "Layla Kethlen", email: "layla@gmail.com", role: "Viewer", cpf: "123.456.789-04" },
+                
             ];
             localStorage.setItem("users", JSON.stringify(defaultUsers));
             setUsers(defaultUsers);

@@ -1,16 +1,23 @@
-import { IUserInfo } from '../../interfaces/user';
+import { IUserInfo } from "../../interfaces/user";
+import { API_URL } from "../../constants/api";
 
 export async function fetchUser(userId: number): Promise<IUserInfo | undefined> {
-    const local = localStorage.getItem("users");
-    
-    if (!local) {
-        return;
+    try {
+        const response = await fetch(`${API_URL}/user/${userId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Erro ao buscar o usuário");
+        }
+
+        const user = await response.json();
+        return user;
+    } catch (error) {
+        console.error(error);
+        return undefined;
     }
-
-    const users: IUserInfo[] =
-        JSON.parse(localStorage.getItem("users") || "") || [];
-
-    const user = users.find((user) => user.id === userId);
-
-    return user;
 }
