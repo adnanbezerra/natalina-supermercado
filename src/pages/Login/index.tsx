@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./Login.css";
-import { loginUser } from "../../services/user/auth-user.ts"; // Importe a função de login
+import { loginUser } from "../../services/user/auth-user.ts"; 
 
 export default function Login() {
-    const navigate = useNavigate(); // Corrigido nome do hook
+    const navigate = useNavigate(); 
     const [email, setEmail] = useState({ value: "", dirty: false });
     const [password, setPassword] = useState({ value: "", dirty: false });
-    const [errorMessage, setErrorMessage] = useState(""); // Estado para mostrar erros
+    const [errorMessage, setErrorMessage] = useState(""); 
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -29,10 +29,9 @@ export default function Login() {
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault(); // Impede o comportamento padrão de envio do formulário
-
-        // Verifica se as informações estão corretas
+    const handleSubmit = async (e: any) => {
+        e.preventDefault(); 
+        
         let hasError = false;
         if (!email.value || !emailRegex.test(email.value)) {
             setEmail({ value: email.value, dirty: true });
@@ -44,19 +43,15 @@ export default function Login() {
             hasError = true;
         }
 
-        // Se não houver erro, tente fazer o login
         if (!hasError) {
             try {
                 const response = await loginUser(email.value, password.value);
 
-                if (response?.token) {
-                    // Armazene o token no localStorage
+                if (response?.token) {                    
                     localStorage.setItem("token", response.token);
 
-                    // Redireciona para a página principal (products)
-                    navigate("/products"); // Certifique-se de que esta rota exista
+                    navigate("/products"); 
                 } else {
-                    // Se o login falhar, exibe a mensagem de erro
                     setErrorMessage(response.message || "Erro desconhecido");
                 }
             } catch (error) {
