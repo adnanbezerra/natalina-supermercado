@@ -5,6 +5,11 @@ export interface IUserInfo {
     role: string;
     password: string;
     CPF: string;
+    image?: {
+        base64Image?: string;
+        contentType: string;
+        buffer?: ArrayBuffer;
+    };
 }
 
 export interface IUpdateUser {
@@ -15,4 +20,9 @@ export interface IUpdateUser {
     newPassword: string;
     confirmPassword: string;
     CPF: string;
+    image?: {
+        base64Image?: string;
+        contentType: string;
+        buffer?: ArrayBuffer;
+    };
 }

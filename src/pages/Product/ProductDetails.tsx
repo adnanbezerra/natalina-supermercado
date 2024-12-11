@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import "./Productt.css";
 import { removeProduct } from "../../services/product/remove-product";
 import { editProduct } from "../../services/product/edit-product";
-import CaixaImage from "../../../public/caixa.png";
 
 const saveProduct = async (product: IProduct) => {
     console.log("Produto salvo:", product);
@@ -72,6 +71,7 @@ const ProductPage: React.FC = () => {
         }
     };
 
+
     const togglePromotion = async () => {
         if (product) {
             const updatedProduct = {
@@ -85,12 +85,23 @@ const ProductPage: React.FC = () => {
                       (1 - (product.promotionDetails?.discount || 0) / 100)
                     : product.price,
             };
-            const savedProduct = await saveProduct(updatedProduct);
-            setProduct(savedProduct);
+
+            const response = await editProduct({
+                input: updatedProduct,
+                productId: id,
+            });
+
+            if (response.isRight) {
+                setProduct(updatedProduct);
+                toast.success("Promoção aplicada com sucesso!");
+            } else {
+                toast.error(response.message);
+            }
         }
     };
 
-    const handleSavePromotion = () => {
+ 
+    const handleSavePromotion = async () => {
         if (product) {
             const updatedProduct = {
                 ...product,
@@ -101,15 +112,24 @@ const ProductPage: React.FC = () => {
                     description,
                 },
             };
-            saveProduct(updatedProduct).then((savedProduct) => {
-                setProduct(savedProduct);
+
+            const response = await editProduct({
+                input: updatedProduct,
+                productId: id,
+            });
+
+            if (response.isRight) {
+                setProduct(updatedProduct);
                 setPromotionMode(false);
                 toast.success("Promoção cadastrada com sucesso!");
-            });
+            } else {
+                toast.error(response.message);
+            }
         }
     };
 
-    const handleUpdatePromotion = () => {
+
+    const handleUpdatePromotion = async () => {
         if (product && product.promotion) {
             const updatedProduct = {
                 ...product,
@@ -119,15 +139,25 @@ const ProductPage: React.FC = () => {
                 },
                 price: product.price * (1 - discount / 100),
             };
-            saveProduct(updatedProduct).then((savedProduct) => {
-                setProduct(savedProduct);
+
+
+            const response = await editProduct({
+                input: updatedProduct,
+                productId: id,
+            });
+
+            if (response.isRight) {
+                setProduct(updatedProduct);
                 setPromotionMode(false);
                 toast.success("Promoção atualizada com sucesso!");
-            });
+            } else {
+                toast.error(response.message);
+            }
         }
     };
 
-    const handleRemovePromotion = () => {
+
+    const handleRemovePromotion = async () => {
         if (product && product.promotion) {
             const updatedProduct = {
                 ...product,
@@ -140,15 +170,24 @@ const ProductPage: React.FC = () => {
                     product.price /
                     (1 - (product.promotionDetails?.discount || 0) / 100),
             };
-            saveProduct(updatedProduct).then((savedProduct) => {
-                setProduct(savedProduct);
+
+            const response = await editProduct({
+                input: updatedProduct,
+                productId: id,
+            });
+
+            if (response.isRight) {
+                setProduct(updatedProduct);
                 toast.success("Promoção removida com sucesso!");
                 setPromotionMode(false);
-            });
+            } else {
+                toast.error(response.message);
+            }
         }
     };
 
-    const handleRecoverPromotion = () => {
+
+    const handleRecoverPromotion = async () => {
         if (product && product.promotionDetails) {
             const { discount, description } = product.promotionDetails;
             const updatedProduct = {
@@ -161,12 +200,17 @@ const ProductPage: React.FC = () => {
                 },
             };
 
-            saveProduct(updatedProduct).then((savedProduct) => {
-                setProduct(savedProduct);
-                toast.success("Promoção recuperada com sucesso!");
+            const response = await editProduct({
+                input: updatedProduct,
+                productId: id,
             });
-        } else {
-            toast.error("Nenhuma promoção salva para este produto.");
+
+            if (response.isRight) {
+                setProduct(updatedProduct);
+                toast.success("Promoção recuperada com sucesso!");
+            } else {
+                toast.error("Nenhuma promoção salva para este produto.");
+            }
         }
     };
 
@@ -196,7 +240,7 @@ const ProductPage: React.FC = () => {
                             src={
                                 product.image
                                     ? `data:${product.image?.contentType};base64,${product.image?.base64Image}`
-                                    : CaixaImage
+                                    : "./caixa.png"
                             }
                             alt={product.name}
                         />

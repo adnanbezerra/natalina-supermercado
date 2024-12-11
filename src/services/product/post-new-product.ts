@@ -14,7 +14,7 @@ export async function postNewProduct(
                 message: "Produto adicionado com sucesso",
             };
         } else {
-            return {
+            return{
                 isRight: false,
                 message: "Erro ao adicionar produto",
             };
