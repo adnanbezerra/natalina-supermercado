@@ -4,7 +4,7 @@ import "./Login.css";
 import { loginUser } from "../../services/user/auth-user.ts"; // Importe a função de login
 
 export default function Login() {
-    const navigation = useNavigate();
+    const navigate = useNavigate(); // Corrigido nome do hook
     const [email, setEmail] = useState({ value: "", dirty: false });
     const [password, setPassword] = useState({ value: "", dirty: false });
     const [errorMessage, setErrorMessage] = useState(""); // Estado para mostrar erros
@@ -17,7 +17,7 @@ export default function Login() {
         } else if (!emailRegex.test(email.value) && email.dirty) {
             return <label className="error">Email inválido</label>;
         } else {
-            return <label className="error"></label>;
+            return null;
         }
     };
 
@@ -25,11 +25,11 @@ export default function Login() {
         if (!password.value && password.dirty) {
             return <label className="error">Campo obrigatório</label>;
         } else {
-            return <label className="error"></label>;
+            return null;
         }
     };
 
-    const handleErrorSend = async (e: any) => {
+    const handleSubmit = async (e) => {
         e.preventDefault(); // Impede o comportamento padrão de envio do formulário
 
         // Verifica se as informações estão corretas
@@ -48,15 +48,16 @@ export default function Login() {
         if (!hasError) {
             try {
                 const response = await loginUser(email.value, password.value);
-                if (response.isRight) {
+
+                if (response?.token) {
                     // Armazene o token no localStorage
                     localStorage.setItem("token", response.token);
 
                     // Redireciona para a página principal (products)
-                    navigation("/products"); // Agora deve funcionar
+                    navigate("/products"); // Certifique-se de que esta rota exista
                 } else {
                     // Se o login falhar, exibe a mensagem de erro
-                    setErrorMessage(response.message);
+                    setErrorMessage(response.message || "Erro desconhecido");
                 }
             } catch (error) {
                 setErrorMessage("Erro ao fazer login. Tente novamente.");
@@ -66,11 +67,12 @@ export default function Login() {
 
     return (
         <div id="loginContainer">
-            <form onSubmit={(e) => handleErrorSend(e)}> {/* Alterado para 'onSubmit' */}
+            <form onSubmit={handleSubmit}> {/* Alterado para 'onSubmit' */}
                 <h3>Login</h3>
                 <p>Preencha com seus dados:</p>
                 <label htmlFor="Email">Email:</label>
                 <input
+                    type="email"
                     value={email.value}
                     onChange={(event) =>
                         setEmail({ value: event.target.value, dirty: true })
@@ -82,6 +84,7 @@ export default function Login() {
 
                 <label htmlFor="Senha">Senha:</label>
                 <input
+                    type="password"
                     value={password.value}
                     onChange={(event) =>
                         setPassword({ value: event.target.value, dirty: true })
@@ -91,7 +94,7 @@ export default function Login() {
                 />
                 {handleErrorPassword()}
 
-                <a onClick={() => navigation('/forgot-password')}>Esqueceu sua senha?</a>
+                <a onClick={() => navigate('/forgot-password')}>Esqueceu sua senha?</a>
 
                 {/* Exibindo erro se houver */}
                 {errorMessage && <div className="error-message">{errorMessage}</div>}

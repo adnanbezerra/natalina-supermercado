@@ -36,11 +36,13 @@ function App() {
                         <Route path="/" element={<Login />} />
                         <Route
                             path="/products"
-                            element={
+                            element={localStorage.getItem("token") ? (
                                 <Header>
                                     <Main />
                                 </Header>
-                            }
+                            ) : (
+                                <Navigate to="/" />
+                            )}
                         />
                         <Route
                             path="/forgot-password"
