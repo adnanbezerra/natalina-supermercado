@@ -1,55 +1,72 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./Login.css";
+import { loginUser } from "../../services/user/auth-user.ts"; // Importe a função de login
+
 export default function Login() {
     const navigation = useNavigate();
-    let [email, setEmail] = useState({ value: "", dirty: false });
-    let [password, setPassword] = useState({ value: "", dirty: false });
-  
+    const [email, setEmail] = useState({ value: "", dirty: false });
+    const [password, setPassword] = useState({ value: "", dirty: false });
+    const [errorMessage, setErrorMessage] = useState(""); // Estado para mostrar erros
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     const handleErrorEmail = () => {
         if (!email.value && email.dirty) {
             return <label className="error">Campo obrigatório</label>;
-        }else if (!emailRegex.test(email.value)&& email.dirty){
-          return(<label className="error">Email inválido</label>)
-        }  else{
-          return(<label className='error'></label>)
+        } else if (!emailRegex.test(email.value) && email.dirty) {
+            return <label className="error">Email inválido</label>;
+        } else {
+            return <label className="error"></label>;
         }
     };
 
     const handleErrorPassword = () => {
         if (!password.value && password.dirty) {
             return <label className="error">Campo obrigatório</label>;
-        }
-        else{
-          return(<label className='error'></label>)
+        } else {
+            return <label className="error"></label>;
         }
     };
 
-    const handleErrorSend = (e:any) => {
-      e.preventDefault();
-      let hasError = false;
-      if(!email.value || !emailRegex.test(email.value)){
-        setEmail({value:email.value,dirty:true});
-        hasError = true;
+    const handleErrorSend = async (e: any) => {
+        e.preventDefault(); // Impede o comportamento padrão de envio do formulário
 
-      }
-      
-      if(!password.value){
-        setPassword({value:password.value,dirty:true});
-        hasError = true;
+        // Verifica se as informações estão corretas
+        let hasError = false;
+        if (!email.value || !emailRegex.test(email.value)) {
+            setEmail({ value: email.value, dirty: true });
+            hasError = true;
+        }
 
-      }
+        if (!password.value) {
+            setPassword({ value: password.value, dirty: true });
+            hasError = true;
+        }
 
-      if(!hasError){
-        navigation("/products")
-      }
+        // Se não houver erro, tente fazer o login
+        if (!hasError) {
+            try {
+                const response = await loginUser(email.value, password.value);
+                if (response.isRight) {
+                    // Armazene o token no localStorage
+                    localStorage.setItem("token", response.token);
 
-    }
+                    // Redireciona para a página principal (products)
+                    navigation("/products"); // Agora deve funcionar
+                } else {
+                    // Se o login falhar, exibe a mensagem de erro
+                    setErrorMessage(response.message);
+                }
+            } catch (error) {
+                setErrorMessage("Erro ao fazer login. Tente novamente.");
+            }
+        }
+    };
 
     return (
         <div id="loginContainer">
-            <form>
+            <form onSubmit={(e) => handleErrorSend(e)}> {/* Alterado para 'onSubmit' */}
                 <h3>Login</h3>
                 <p>Preencha com seus dados:</p>
                 <label htmlFor="Email">Email:</label>
@@ -76,7 +93,10 @@ export default function Login() {
 
                 <a onClick={() => navigation('/forgot-password')}>Esqueceu sua senha?</a>
 
-                <button onClick={(e) => handleErrorSend(e)}>Acessar</button>
+                {/* Exibindo erro se houver */}
+                {errorMessage && <div className="error-message">{errorMessage}</div>}
+
+                <button type="submit">Acessar</button> {/* Alterado para 'type="submit"' */}
             </form>
         </div>
     );
